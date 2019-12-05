@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "OpenTracing",
+        "repositoryURL": "https://github.com/kevinenax/opentracing-swift.git",
+        "state": {
+          "branch": "master",
+          "revision": "a8a3acd7f027fe93a1ca145d373edc86df50ca2e",
+          "version": null
+        }
+      },
+      {
+        "package": "Threading",
+        "repositoryURL": "https://github.com/Miraion/Threading.git",
+        "state": {
+          "branch": null,
+          "revision": "f326bcd84449b7d6604f2b3ff601b8d87ac39790",
+          "version": "1.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
