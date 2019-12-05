@@ -66,7 +66,7 @@ public class DDSpan: Span, Encodable {
     }
 
     var parent_id: UInt? {
-        self.references?.parent_id()
+        return self.references?.parent_id()
     }
     
     var statusCode: String? {
