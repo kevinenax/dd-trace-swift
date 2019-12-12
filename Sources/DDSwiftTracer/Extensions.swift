@@ -20,7 +20,15 @@ extension Array where Element == Reference {
             }
         })
         if let ddSpan = firstChildRef?.context as? DDSpanContext {
-            return ddSpan.traceID
+            return ddSpan.spanId
+        } else {
+            return nil
+        }
+    }
+    
+    func trace_id() -> UInt? {
+        if let ddSpan = self.first?.context as? DDSpanContext {
+            return ddSpan.traceId
         } else {
             return nil
         }

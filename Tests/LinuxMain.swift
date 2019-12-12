@@ -3,5 +3,6 @@ import XCTest
 import DDSwiftTracerTests
 
 var tests = [XCTestCaseEntry]()
-tests += DDSwiftTracerTests.allTests()
+tests += DDSwiftTracerTests.__allTests()
+
 XCTMain(tests)

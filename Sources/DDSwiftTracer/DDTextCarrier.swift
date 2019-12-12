@@ -24,8 +24,8 @@ public class DDTextCarrier: HTTPHeadersReader, HTTPHeadersWriter {
     }
 
     public func inject(spanContext: SpanContext) {
-        guard let span = spanContext as? DDSpanContext else { return }
-        self.headers[Constants.TraceIDHeader] = String(span.traceID)
-        self.headers[Constants.SpanIDHeader] = String(span.spanID)
+        guard let context = spanContext as? DDSpanContext else { return }
+        self.headers[Constants.TraceIDHeader] = String(context.traceId)
+        self.headers[Constants.SpanIDHeader] = String(context.spanId)
     }
 }

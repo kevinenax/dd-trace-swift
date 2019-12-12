@@ -11,17 +11,17 @@ import OpenTracing
 public struct DDSpanContext: SpanContext, CustomStringConvertible {
 
     public var description: String {
-        return "[dd.trace_id=\(self.traceID) dd.span_id=\(self.spanID)]"
+        return "[dd.trace_id=\(self.traceId) dd.span_id=\(self.spanId)]"
     }
     
-    public let spanID: UInt
-    public let traceID: UInt
+    public let spanId: UInt
+    public let traceId: UInt
     var baggage: [String: String] = [:]
 
     public init(traceID: UInt,
                 spanID: UInt = UInt(abs(UUID().hashValue))) {
-        self.traceID = traceID
-        self.spanID = spanID
+        self.traceId = traceID
+        self.spanId = spanID
     }
     
     

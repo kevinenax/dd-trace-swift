@@ -25,13 +25,13 @@ public class DDTrace: Encodable {
     }
 }
 
-struct DDPayload: Encodable {
+public struct DDPayload: Encodable {
     var traces: [DDTrace]
     
     public func encode(to encoder: Encoder) throws {
         var container = encoder.unkeyedContainer()
         for trace in traces {
-           try container.encode(trace)
+            try container.encode(trace)
         }
     }
 }
@@ -67,6 +67,14 @@ public class DDSpan: Span, Encodable {
 
     var parent_id: UInt? {
         return self.references?.parent_id()
+    }
+    
+    var spanId: UInt {
+        return self.backingContext.spanId
+    }
+    
+    var traceId: UInt {
+        return self.backingContext.traceId
     }
     
     var statusCode: String? {
@@ -143,8 +151,8 @@ public class DDSpan: Span, Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: JSONCodingKeys.self)
         var meta: [String: String] = [:]
-        try container.encode(self.backingContext.traceID, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.TraceID))
-        try container.encode(self.backingContext.spanID, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.SpanID))
+        try container.encode(self.backingContext.traceId, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.TraceID))
+        try container.encode(self.backingContext.spanId, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.SpanID))
         try container.encode(self.operationName, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.Name))
         try container.encodeIfPresent(self.resource, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.Resource))
         try container.encodeIfPresent(self.service, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.Service))
