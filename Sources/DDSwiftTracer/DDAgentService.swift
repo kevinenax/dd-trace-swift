@@ -11,16 +11,16 @@ public protocol DDAgentServiceProtocol {
     func sendPayload(_ payload: DDPayload, completion: @escaping (Bool) -> Void)
 }
 
-class DDAgentService: DDAgentServiceProtocol {
+public final class DDAgentService: DDAgentServiceProtocol {
     
     private let jsonEncoder = JSONEncoder()
     private let agentHost: String
     
-    init(agentHost: String) {
+    public init(agentHost: String) {
         self.agentHost = agentHost
     }
     
-    func sendPayload(_ payload: DDPayload, completion: @escaping (Bool) -> Void) {
+    public func sendPayload(_ payload: DDPayload, completion: @escaping (Bool) -> Void) {
         let port = 8126
         let path = "/v0.3/traces"
         let url = URL(string: "http://\(self.agentHost):\(port)\(path)")!
