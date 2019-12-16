@@ -3,10 +3,10 @@
     "pins": [
       {
         "package": "OpenTracing",
-        "repositoryURL": "https://github.com/kevinenax/opentracing-swift.git",
+        "repositoryURL": "https://github.com/opentracing/opentracing-swift.git",
         "state": {
           "branch": "master",
-          "revision": "a8a3acd7f027fe93a1ca145d373edc86df50ca2e",
+          "revision": "e2b0551de2fd9a5cd9a3d8dff5390440f724283c",
           "version": null
         }
       },
