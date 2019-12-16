@@ -71,15 +71,21 @@ public class DDTracer: Tracer {
         }
         if !traces.isEmpty {
             let payload = DDPayload(traces:traces)
-            self.agentService.sendPayload(payload) { (successful) in
-                if successful {
-                    for span in spansToRemove {
-                        guard let trace = self.cache[span.traceId] else { continue }
-                        trace.spans.removeAll { $0.spanId == span.spanId }
-                        if trace.spans.isEmpty {
-                            self.cache[trace.id] = nil
+            self.agentService.sendPayload(payload) { (result) in
+                
+                switch result {
+                case .success(let successful):
+                    if successful {
+                        for span in spansToRemove {
+                            guard let trace = self.cache[span.traceId] else { continue }
+                            trace.spans.removeAll { $0.spanId == span.spanId }
+                            if trace.spans.isEmpty {
+                                self.cache[trace.id] = nil
+                            }
                         }
                     }
+                case .failure(_):
+                    break //TODO: Log?
                 }
             }
         }
