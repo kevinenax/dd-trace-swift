@@ -1,15 +1,17 @@
 name: Swift
-
 on: [push]
-
 jobs:
   build:
-
     runs-on: macOS-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: Build
       run: swift build -v
     - name: Run tests
-      run: swift test -v
+      run: swift test -v --enable-test-coverage
+    - name: Gather test coverage
+      run: ./exportCoverage.sh
+    - name: Report test coverage
+      uses: codecov/codecov-action@v1
+      with: 
+          token: ${{ secrets.CODECOV_TOKEN }} 
