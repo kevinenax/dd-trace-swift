@@ -7,6 +7,7 @@
 
 import XCTest
 @testable import DDSwiftTracer
+import OpenTracing
 
 class DDTextCarrierTests: XCTestCase {
 
@@ -26,7 +27,7 @@ class DDTextCarrierTests: XCTestCase {
         let expectedTraceId = "189624897217"
         let expectedSpanId = "73221569782"
         let testDictionary = ["x-datadog-trace-id": expectedTraceId, "x-datadog-parent-id": expectedSpanId]
-        let testSpanContext = DDSpanContext(traceID: UInt(expectedTraceId)!, spanID: UInt(expectedSpanId)!)
+        let testSpanContext = DDSpanContext(traceId: UInt(expectedTraceId)!, spanId: UInt(expectedSpanId)!)
         testObject.inject(spanContext: testSpanContext)
         
         XCTAssertEqual(testObject.headers, testDictionary)
@@ -44,6 +45,23 @@ class DDTextCarrierTests: XCTestCase {
         
         testObject = DDTextCarrier(testDictionary2)
         XCTAssertNil(testObject.extract())
+    }
+    
+    func testInjectWithWrongTypeDoesNothing() {
+        let testObject = DDTextCarrier([:])
+        testObject.inject(spanContext: Global.sharedTracer.startSpan(operationName: "", childOf: nil).context)
+        XCTAssertTrue(testObject.headers.isEmpty)
+    }
+    
+    func testExtractIsCaseInsensitive() {
+        let expectedTraceId = "189624897217"
+        let expectedSpanId = "73221569782"
+        let testDictionary = ["X-Datadog-Trace-Id": expectedTraceId, "X-Datadog-Parent-Id": expectedSpanId]
+        let testObject = DDTextCarrier(testDictionary)
+        let context = testObject.extract() as! DDSpanContext
+        
+        XCTAssertEqual(expectedSpanId, String(context.spanId))
+        XCTAssertEqual(expectedTraceId, String(context.traceId))
     }
 
 }

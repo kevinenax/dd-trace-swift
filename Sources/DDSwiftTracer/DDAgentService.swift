@@ -30,7 +30,7 @@ public final class DDAgentService: DDAgentServiceProtocol {
         var request = URLRequest(url: url)
         request.httpBody = try! jsonEncoder.encode(payload)
         request.httpMethod = "PUT"
-        let task = URLSession.shared.dataTask(with: request) { (dataOpt, responsOpt, errorOpt) in
+        let task = self.session.dataTask(with: request) { (dataOpt, responsOpt, errorOpt) in
             if let error = errorOpt {
                 completion(.failure(error))
             } else {

@@ -54,7 +54,7 @@ public class DDSpan: Span, Encodable {
     let startTime: Date
     var operationName: String
     var endTime: Date?
-    var references: [Reference]?
+    var references: [Reference]
 
     var tags: [String: Codable] = [:]
     var logs: [Date: [String: Codable]] = [:]
@@ -66,7 +66,7 @@ public class DDSpan: Span, Encodable {
     }
 
     var parent_id: UInt? {
-        return self.references?.parent_id()
+        return self.references.parent_id()
     }
     
     var spanId: UInt {
@@ -173,11 +173,12 @@ public class DDSpan: Span, Encodable {
     private var backingContext: DDSpanContext
     
     init(operationName: String,
-         traceID: UInt,
+         traceId: UInt,
          startTime: Date = Date(),
-         references: [Reference]? = nil) {
+         spanId: UInt = UInt(abs(UUID().hashValue)),
+         references: [Reference] = []) {
         self.operationName = operationName
-        self.backingContext = DDSpanContext(traceID: traceID)
+        self.backingContext = DDSpanContext(traceId: traceId, spanId: spanId)
         self.startTime = startTime
         self.references = references
     }

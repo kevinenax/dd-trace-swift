@@ -13,7 +13,7 @@ final class DDSwiftTracerTests: XCTestCase {
     }
     
     func testStartSpanUsesParentSpan() {
-        let parent = Reference.child(of: DDSpanContext(traceID: .random, spanID: .random))
+        let parent = Reference.child(of: DDSpanContext(traceId: .random, spanId: .random))
         let parentContext = parent.context as! DDSpanContext
         let span = testObject.startSpan(operationName: "operation", 
                                         references: [parent], 
@@ -53,7 +53,7 @@ final class DDSwiftTracerTests: XCTestCase {
     func testStartSpanCachesTrace() {
         XCTAssertTrue(testObject.cache.isEmpty) //starts empty
         let expectedKey = UInt.random
-        let parent = Reference.child(of: DDSpanContext(traceID: expectedKey, spanID: .random))
+        let parent = Reference.child(of: DDSpanContext(traceId: expectedKey, spanId: .random))
         let span = testObject.startSpan(operationName: "operation", 
                                         references: [parent], 
                                         tags: nil, 
@@ -65,7 +65,7 @@ final class DDSwiftTracerTests: XCTestCase {
         XCTAssertTrue(testObject.cache.isEmpty) //starts empty
         let expectedKey = UInt.random
         for _ in 0..<3 {
-            let parent = Reference.child(of: DDSpanContext(traceID: expectedKey, spanID: .random))
+            let parent = Reference.child(of: DDSpanContext(traceId: expectedKey, spanId: .random))
             _ = testObject.startSpan(operationName: "operation", 
                                      references: [parent], 
                                      tags: nil, 
@@ -92,7 +92,7 @@ final class DDSwiftTracerTests: XCTestCase {
         }
         
         for _ in 0..<3 {
-            let parent = Reference.child(of: DDSpanContext(traceID: expectedTraceID, spanID: .random))
+            let parent = Reference.child(of: DDSpanContext(traceId: expectedTraceID, spanId: .random))
             let span = testObject.startSpan(operationName: "operation", 
                                             references: [parent], 
                                             tags: nil, 
@@ -110,7 +110,7 @@ final class DDSwiftTracerTests: XCTestCase {
         let expectedTraceID = UInt.random
         let callbackExpectation = expectation(description: "Payload should be sent to service")
         
-        let parent = Reference.child(of: DDSpanContext(traceID: expectedTraceID, spanID: .random))
+        let parent = Reference.child(of: DDSpanContext(traceId: expectedTraceID, spanId: .random))
         let span = testObject.startSpan(operationName: "operation", 
                                         references: [parent], 
                                         tags: nil, 

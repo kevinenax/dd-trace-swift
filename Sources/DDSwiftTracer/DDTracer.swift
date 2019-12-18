@@ -31,21 +31,21 @@ public class DDTracer: Tracer {
                           tags: [String : Codable]?,
                           startTime: Date?) -> Span {
         let defaultId = UUID().hashValue
-        let traceID = references?.trace_id() ?? UInt(abs(defaultId))
+        let traceId = references?.trace_id() ?? UInt(abs(defaultId))
         
         let span = DDSpan(operationName: operationName,
-                          traceID: traceID,
+                          traceId: traceId,
                           startTime: startTime ?? Date(),
-                          references: references)
+                          references: references ?? [])
         for (tag, value) in tags ?? [:] {
             span.setTag(key: tag, value: value)
         }
         span.setTag(key: DDSpan.Tags.service.rawValue, value: self.service)
         
-        if let trace = self.cache[traceID] {
+        if let trace = self.cache[traceId] {
             trace.spans.append(span)
         } else {
-            cache[traceID] = DDTrace(traceId: traceID, spans: [span])
+            cache[traceId] = DDTrace(traceId: traceId, spans: [span])
         }
         return span
     }

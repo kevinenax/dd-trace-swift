@@ -18,10 +18,10 @@ public struct DDSpanContext: SpanContext, CustomStringConvertible {
     public let traceId: UInt
     var baggage: [String: String] = [:]
 
-    public init(traceID: UInt,
-                spanID: UInt = UInt(abs(UUID().hashValue))) {
-        self.traceId = traceID
-        self.spanId = spanID
+    public init(traceId: UInt,
+                spanId: UInt = UInt(abs(UUID().hashValue))) {
+        self.traceId = traceId
+        self.spanId = spanId
     }
     
     
