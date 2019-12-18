@@ -8,7 +8,7 @@ jobs:
     - name: Build
       run: swift build -v
     - name: Run tests
-      run: swift test -v --enable-test-coverage
+      run: swift test -v --enable-code-coverage
     - name: Gather test coverage
       run: ./exportCoverage.sh
     - name: Report test coverage
