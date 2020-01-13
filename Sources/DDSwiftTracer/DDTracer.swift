@@ -40,7 +40,7 @@ public class DDTracer: Tracer {
         for (tag, value) in tags ?? [:] {
             span.setTag(key: tag, value: value)
         }
-        span.setTag(key: DDSpan.Tags.service.rawValue, value: self.service)
+        span.setTag(key: DDSpan.Tags.service, value: self.service)
         
         if let trace = self.cache[traceId] {
             trace.spans.append(span)

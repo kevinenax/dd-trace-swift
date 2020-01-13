@@ -31,3 +31,11 @@ Global.sharedTracer = DDTracer(serviceName: "myService", agentService: agent)
 ```
 
 The library also defines a number of constants to be used as tags on span objects. Setting any of these will ensure that data ends up in DataDog and in the correct place. See [`DDSpan.Tags`](Sources/DDSwiftTracer/DDSpan.swift)
+
+For example, the following will set the error message and status on the span when when it is serialized and transmitted to the DD Agent:
+
+``` swift
+span.setTag(key: DDSpan.Tags.error, value: "Error reason goes here")
+```
+
+

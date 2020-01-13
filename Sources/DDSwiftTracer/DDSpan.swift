@@ -8,43 +8,17 @@
 import Foundation
 import OpenTracing
 
-public class DDTrace: Encodable {
-    var spans: [DDSpan]
-    let id: UInt
-    
-    init(traceId: UInt, spans: [DDSpan]) {
-        self.id = traceId
-        self.spans = spans
-    }
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        for span in spans {
-           try container.encode(span)
-        }
-    }
-}
-
-public struct DDPayload: Encodable {
-    var traces: [DDTrace]
-    
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.unkeyedContainer()
-        for trace in traces {
-            try container.encode(trace)
-        }
-    }
-}
-
 public class DDSpan: Span, Encodable {
     
-    public enum Tags: String {
-        case resource
-        case service
-        case error
-        case statusCode = "http.status_code"
-        case httpMethod = "http.method"
-        case url = "http.url"
+    /// These tags are meant to be used in conjunction with the OpenTracing Span's tag system.
+    /// When set, the corresponging data will be set on the span appropriately when being sent to DataDog.
+    public enum Tags {
+        static let resource = "resource"
+        static let service = "service"
+        static let error = "error"
+        static let statusCode = "http.status_code"
+        static let httpMethod = "http.method"
+        static let url = "http.url"
     }
 
     public var context: SpanContext {
@@ -79,55 +53,55 @@ public class DDSpan: Span, Encodable {
     
     var statusCode: String? {
         get {
-            return self.tags[DDSpan.Tags.statusCode.rawValue] as? String
+            return self.tags[DDSpan.Tags.statusCode] as? String
         }
         set {
-            self.tags[DDSpan.Tags.statusCode.rawValue] = newValue
+            self.tags[DDSpan.Tags.statusCode] = newValue
         }
     }
     
     var httpMethod: String? {
         get {
-            return self.tags[DDSpan.Tags.httpMethod.rawValue] as? String
+            return self.tags[DDSpan.Tags.httpMethod] as? String
         }
         set {
-            self.tags[DDSpan.Tags.httpMethod.rawValue] = newValue
+            self.tags[DDSpan.Tags.httpMethod] = newValue
         }
     }
     
     var url: String? {
         get {
-            return self.tags[DDSpan.Tags.url.rawValue] as? String
+            return self.tags[DDSpan.Tags.url] as? String
         }
         set {
-            self.tags[DDSpan.Tags.url.rawValue] = newValue
+            self.tags[DDSpan.Tags.url] = newValue
         }
     }
     
     var resource: String? {
         get {
-            return self.tags[DDSpan.Tags.resource.rawValue] as? String
+            return self.tags[DDSpan.Tags.resource] as? String
         }
         set {
-            self.tags[DDSpan.Tags.resource.rawValue] = newValue
+            self.tags[DDSpan.Tags.resource] = newValue
         }
     }
     
     var service: String? {
         get {
-            return self.tags[DDSpan.Tags.service.rawValue] as? String
+            return self.tags[DDSpan.Tags.service] as? String
         }
         set {
-            self.tags[DDSpan.Tags.service.rawValue] = newValue
+            self.tags[DDSpan.Tags.service] = newValue
         }
     }
     
     var error: String? {
         get {
-            return self.tags[DDSpan.Tags.error.rawValue] as? String
+            return self.tags[DDSpan.Tags.error] as? String
         }
         set {
-            self.tags[DDSpan.Tags.error.rawValue] = newValue
+            self.tags[DDSpan.Tags.error] = newValue
         }
     }
     
@@ -164,9 +138,9 @@ public class DDSpan: Span, Encodable {
             try container.encode(1, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.Error))
             meta["errorMessage"] = errorMessage
         }
-        meta[DDSpan.Tags.httpMethod.rawValue] = self.httpMethod
-        meta[DDSpan.Tags.url.rawValue] = self.url
-        meta[DDSpan.Tags.statusCode.rawValue] = self.statusCode
+        meta[DDSpan.Tags.httpMethod] = self.httpMethod
+        meta[DDSpan.Tags.url] = self.url
+        meta[DDSpan.Tags.statusCode] = self.statusCode
         try container.encode(meta, forKey: JSONCodingKeys(stringValue: Constants.DDSpanEncodingKeys.Meta))
     }
 
@@ -227,5 +201,34 @@ struct JSONCodingKeys: CodingKey {
     init?(intValue: Int) {
         self.init(stringValue: "\(intValue)")
         self.intValue = intValue
+    }
+}
+
+
+public class DDTrace: Encodable {
+    var spans: [DDSpan]
+    let id: UInt
+    
+    init(traceId: UInt, spans: [DDSpan]) {
+        self.id = traceId
+        self.spans = spans
+    }
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        for span in spans {
+           try container.encode(span)
+        }
+    }
+}
+
+public struct DDPayload: Encodable {
+    var traces: [DDTrace]
+    
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.unkeyedContainer()
+        for trace in traces {
+            try container.encode(trace)
+        }
     }
 }
