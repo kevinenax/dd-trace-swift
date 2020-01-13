@@ -13,12 +13,12 @@ public class DDSpan: Span, Encodable {
     /// These tags are meant to be used in conjunction with the OpenTracing Span's tag system.
     /// When set, the corresponging data will be set on the span appropriately when being sent to DataDog.
     public enum Tags {
-        static let resource = "resource"
-        static let service = "service"
-        static let error = "error"
-        static let statusCode = "http.status_code"
-        static let httpMethod = "http.method"
-        static let url = "http.url"
+        public static let resource = "resource"
+        public static let service = "service"
+        public static let error = "error"
+        public static let statusCode = "http.status_code"
+        public static let httpMethod = "http.method"
+        public static let url = "http.url"
     }
 
     public var context: SpanContext {
