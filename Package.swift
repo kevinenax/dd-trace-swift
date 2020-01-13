@@ -11,7 +11,7 @@ let package = Package(
             targets: ["DDSwiftTracer"]),
     ],
     dependencies: [
-         .package(url: "https://github.com/opentracing/opentracing-swift.git", .branch("master")),
+         .package(url: "https://github.com/opentracing/opentracing-swift.git", from: "0.1.0"),
          .package(url: "https://github.com/Miraion/Threading.git", from: "1.0.0"),
     ],
     targets: [
