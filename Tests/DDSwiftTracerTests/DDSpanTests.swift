@@ -15,35 +15,35 @@ class DDSpanTests: XCTestCase {
         
         let testObject = DDSpan(operationName: "op", traceId: 198376676892)
         
-        testObject.tags[DDSpan.Tags.statusCode.rawValue] = "500"
+        testObject.tags[DDSpan.Tags.statusCode] = "500"
         XCTAssertEqual("500", testObject.statusCode)
         testObject.statusCode = "404"
-        XCTAssertEqual("404", testObject.tags[DDSpan.Tags.statusCode.rawValue] as! String)
+        XCTAssertEqual("404", testObject.tags[DDSpan.Tags.statusCode] as! String)
         
-        testObject.tags[DDSpan.Tags.httpMethod.rawValue] = "GET"
+        testObject.tags[DDSpan.Tags.httpMethod] = "GET"
         XCTAssertEqual("GET", testObject.httpMethod)
         testObject.httpMethod = "PUT"
-        XCTAssertEqual("PUT", testObject.tags[DDSpan.Tags.httpMethod.rawValue] as! String)
+        XCTAssertEqual("PUT", testObject.tags[DDSpan.Tags.httpMethod] as! String)
         
-        testObject.tags[DDSpan.Tags.url.rawValue] = "http://www.google.com/"
+        testObject.tags[DDSpan.Tags.url] = "http://www.google.com/"
         XCTAssertEqual("http://www.google.com/", testObject.url)
         testObject.url = "http://www.bing.com/"
-        XCTAssertEqual("http://www.bing.com/", testObject.tags[DDSpan.Tags.url.rawValue] as! String)
+        XCTAssertEqual("http://www.bing.com/", testObject.tags[DDSpan.Tags.url] as! String)
         
-        testObject.tags[DDSpan.Tags.resource.rawValue] = "/stuff"
+        testObject.tags[DDSpan.Tags.resource] = "/stuff"
         XCTAssertEqual("/stuff", testObject.resource)
         testObject.resource = "/things"
-        XCTAssertEqual("/things", testObject.tags[DDSpan.Tags.resource.rawValue] as! String)
+        XCTAssertEqual("/things", testObject.tags[DDSpan.Tags.resource] as! String)
         
-        testObject.tags[DDSpan.Tags.service.rawValue] = "SomeService"
+        testObject.tags[DDSpan.Tags.service] = "SomeService"
         XCTAssertEqual("SomeService", testObject.service)
         testObject.service = "SomeOtherService"
-        XCTAssertEqual("SomeOtherService", testObject.tags[DDSpan.Tags.service.rawValue] as! String)
+        XCTAssertEqual("SomeOtherService", testObject.tags[DDSpan.Tags.service] as! String)
         
-        testObject.tags[DDSpan.Tags.error.rawValue] = "It broke"
+        testObject.tags[DDSpan.Tags.error] = "It broke"
         XCTAssertEqual("It broke", testObject.error)
         testObject.error = "It broke in a different way"
-        XCTAssertEqual("It broke in a different way", testObject.tags[DDSpan.Tags.error.rawValue] as! String)
+        XCTAssertEqual("It broke in a different way", testObject.tags[DDSpan.Tags.error] as! String)
     }
     
     func testOperationNameCanBeChanged() {
